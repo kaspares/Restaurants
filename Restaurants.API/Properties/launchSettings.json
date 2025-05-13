@@ -1,0 +1,24 @@
+﻿{
+  // Defenitions on how we can start up our project with
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5033",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:7075;http://localhost:5033",
+      "environmentVariables": {  // We can specify what types of environment variables we want to use inside of our project
+        "ASPNETCORE_ENVIRONMENT": "Development"   // if we change the value to "Production" we can see how project behave on production
+      }
+    }
+  }
+}

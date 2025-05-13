@@ -1,0 +1,141 @@
+// It is simple API client which allows us to test our API, without other programs as postman
+// We can send request and see the results
+
+// Using the http file, we'll be able to construct any HTTP request and send it over to our backend
+
+@host = https://localhost
+@port = 7075
+@Restaurants.API_HostAddress = https://localhost:7075
+
+GET {{Restaurants.API_HostAddress}}/weatherforecast/currentDay
+Accept: application/json
+ProjectUrl: {{$projectUrl}}
+Guid: {{$guid}}
+LocalDate: {{$datetime iso8601}}
+Random-int: {{$randomInt}}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/weatherforecast/
+Content-Type: application/json
+
+"Kacper"
+
+###
+@count=3
+POST {{Restaurants.API_HostAddress}}/weatherforecast/generate?count=3
+Content-Type: application/json
+
+{
+  "min": 25,
+  "max": 23
+}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants/4
+
+###
+
+@id=123
+GET {{Restaurants.API_HostAddress}}/api/restaurants/22222
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+  
+  
+  "Name": "Paczus",
+  "Category": "Indian",
+  "PostalCode": "22-222",
+  "Description": "Niez³a knajpa",
+  "HasDelivery": true,
+  "ContactEmail": "stefano@gmail.com",
+  "ContactNumber": "123",
+  "City": "Sopot",
+  "Street": "Bohaterow Monte Cassino"
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+  //CreateRestaurantDTO
+}
+
+###
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/4
+###
+PATCH {{Restaurants.API_HostAddress}}/api/restaurants/10
+Content-Type: application/json
+
+{
+  "Name" : "Przykladowa Nazwa",
+  "Description" : "Opis hehe",
+  "HasDelivery" : false
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurant/22/dishes
+Content-Type: application/json
+
+{
+  "Name" : "Hehe",
+  "Description" : "XDDD"
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurant/2/dishes
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurant/3223332/dishes
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurant/3/dishes
+Content-Type: application/json
+
+{
+  "Name" : "Spahertre",
+  "Description" : "Classic",
+  "Price" : 232,
+  "KiloCalories" : 2332
+}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurant/3/dishes/
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurant/3/dishes/7
+
+###
+
+@restaurantId=0
+@dishId=0
+GET {{Restaurants.API_HostAddress}}/api/restaurant/{{restaurantId}}/dishes/{{dishId}}
+
+###
+
+DELETE {{Restaurants.API_HostAddress}}/api/restaurant/33333/dishes
+
+###
