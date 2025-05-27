@@ -1,4 +1,6 @@
-﻿using Restaurannts.Infrastructure.Persistence;
+﻿using Microsoft.AspNetCore.Identity;
+using Restaurannts.Infrastructure.Persistence;
+using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace Restaurants.Infrastructure.Seeders
 {
-    internal class RestaurantSeeder(RestaurantsDbContext dbContext) : IRestaurantSeeder
+    internal class RestaurantSeeder(RestaurantsDbContext dbContext,
+        RoleManager<IdentityRole> roleManager) : IRestaurantSeeder
     {
         public async Task Seed()
         {
@@ -21,6 +24,37 @@ namespace Restaurants.Infrastructure.Seeders
                     await dbContext.SaveChangesAsync();
                 }
             }
+            var roles = GetRoles();
+            foreach (var role in roles)
+            {
+                var exists = await roleManager.RoleExistsAsync(role.Name!);
+                if (!exists)
+                {
+                    await roleManager.CreateAsync(role);
+                }
+            }
+
+
+        }
+
+        private IEnumerable<IdentityRole> GetRoles()
+        {
+            List<IdentityRole> roles =
+                [
+                    new (UserRoles.User) 
+                    {
+                        NormalizedName = UserRoles.User.ToUpper()
+                    },
+                    new (UserRoles.Owner)
+                    {
+                        NormalizedName = UserRoles.Owner.ToUpper()
+                    },
+                    new (UserRoles.Admin)
+                    {
+                        NormalizedName = UserRoles.Admin.ToUpper()
+                    }
+                ];
+            return roles;
         }
 
         private IEnumerable<Restaurant> GetRestaurants()

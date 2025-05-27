@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants;
 using Restaurants.Application.Restaurants.Command.CreateRestaurant;
@@ -7,14 +8,18 @@ using Restaurants.Application.Restaurants.Command.UpdateRestaurant;
 using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
+using Restaurants.Domain.Constants;
+using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Controllers
 {
     [ApiController]
     [Route("api/restaurants")]
+    [Authorize]
     public class RestaurantsController(IMediator mediator) : ControllerBase
     {
         [HttpGet]
+        [Authorize(Policy = PolicyNames.CreatedAtLeast2Restaurants)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>))] // addes return type to swagger
         public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll()
         {
@@ -23,7 +28,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet("{id}")]
-
+        [Authorize]
         public async Task<ActionResult<RestaurantDto>> GetById([FromRoute]int id)
         {
             var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
@@ -31,6 +36,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Owner)]
         public async Task<IActionResult> CreateRestaurant(CreateRestaurantCommand command)
         {
             //if(!ModelState.IsValid)

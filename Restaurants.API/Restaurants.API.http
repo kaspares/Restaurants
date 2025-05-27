@@ -7,6 +7,7 @@
 @port = 7075
 @Restaurants.API_HostAddress = https://localhost:7075
 
+@token = CfDJ8LkLuJ86w39HqN9J1ni0s_Fb3FPv4JgzN0mSchUudk3lGWCs_cd1xg36UMwaz39XAlC4Kvw70chx8eipPrR5ddUg-qxqTpHK5BLEV6MhKfZhxHXKqrADiWljh8MfqNoepKfneDom6CGZ3Heb3ZwgFHgQI-EQ1QJNabtTLXfiX1KTJWEl6kWT_GGDowA0CIdJOQVNvY2wFSk-33EDXS5N8UNAC8ZR91PmRyF0jlblWAIl_qZObNEOK-UTmSgvRkYRs3zJAW2SeRr4T98CMGrplbtCrL4zcyvrs2oELYw2AnkAuiec_G2mKR_9JF167zG3RJOs1uG5a5pfHQ-YGpcbdaQ9ovuWqDSNV-J93e0Pw-HKFqm1zl9N73fAXMtkD5LcDOGT7z36sMUvrfRVxRDpxJ47DgHj5DIXBmLmG2CGsE1fVHj4Olm9TgO-LRflXY3sMKS3N_U_W-KRTbFqdLnMVPfskYat25owu91Xr-dYyCyRLB1aZ1PVF5N0zEV6ywkcS2n3sumPfs2iGvVCElyFxepw80hDInai9wAH2wmCwW74H0UMtpf1qgDEkenrDBZ2a1kXFJExb2Jy4_CdhM9L85WzXl3FVkG-haJlTQbfnEOhm9KMCkIC11pFLFHVnuawa7PGYChTzRfp9DDLcDKuWZDK7jfhOoCI-eKE_pl66zbe4ZRkYP9eS668pz3NdNNE-B-7GKLA7yB0dlloaiZ6Q5OVdkwzf2BdpeRprYpnJ6-TWklL_dx0EwZBdfcZphZbL_NuzYdPFq699fFl3uf3yrXupMQZH_prYq0wUQLUOHZy
 GET {{Restaurants.API_HostAddress}}/weatherforecast/currentDay
 Accept: application/json
 ProjectUrl: {{$projectUrl}}
@@ -33,22 +34,22 @@ Content-Type: application/json
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants/4
+GET {{Restaurants.API_HostAddress}}/api/restaurants/
 
 ###
 
 @id=123
-GET {{Restaurants.API_HostAddress}}/api/restaurants/22222
-
+GET {{Restaurants.API_HostAddress}}/api/restaurants/14
+Authorization: Bearer {{token}}
 ###
 
 POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
-
+Authorization: Bearer {{token}}
 {
   
   
-  "Name": "Paczus",
+  "Name": "Fajna knajpa",
   "Category": "Indian",
   "PostalCode": "22-222",
   "Description": "Niez³a knajpa",
@@ -136,6 +137,54 @@ GET {{Restaurants.API_HostAddress}}/api/restaurant/{{restaurantId}}/dishes/{{dis
 
 ###
 
-DELETE {{Restaurants.API_HostAddress}}/api/restaurant/33333/dishes
+DELETE {{Restaurants.API_HostAddress}}/api/restaurant/3/dishes
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/identity/register
+Content-Type: application/json
+
+  {
+    "email" : "owner@test.com",
+    "password" : "Password1!"
+  }
+
+
+###
+POST {{Restaurants.API_HostAddress}}/api/identity/login
+Content-Type: application/json
+
+  {
+    "email" : "owner@test.com",
+    "password" : "Password1!"
+  }
+
+###
+PATCH {{Restaurants.API_HostAddress}}/api/identity/user
+Content-Type: application/json
+Auhtorization: Bearer {{token}}
+{
+  
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/identity/userRole
+Content-Type: application/json
+Authorization: Bearer {{token}}
+{
+  "userEmail": "owner@test.com",
+  "roleName": "Owner"
+}
+
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/identity/userRole
+Content-Type: application/json
+
+{
+  //AssignUserRoleCommand
+}
 
 ###
